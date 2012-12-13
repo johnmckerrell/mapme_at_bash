@@ -4,6 +4,8 @@ This script allows you to update your location on MapMe.At using DNS.
 You will need to have an account on that site and set up a shortcode
 on the Account page.
 
+Clone this repository then symlink mapme.at.sh into your path.
+
 # Instructions
 
 You must set your shortcode before you can use this script. This

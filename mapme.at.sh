@@ -41,6 +41,22 @@ mapme() {
     fi
 }
 
+##
+# Function for getting the directory that the script resides in
+# Resolves links, etc.
+# Found at: http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
+source_dir() {
+    SOURCE="${BASH_SOURCE[0]}"
+    DIR="$( dirname "$SOURCE" )"
+    while [ -h "$SOURCE" ]
+    do 
+      SOURCE="$(readlink "$SOURCE")"
+      [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+      DIR="$( cd -P "$( dirname "$SOURCE"  )" && pwd )"
+    done
+    SOURCE_DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+}
+
 # Prepare the directory for the mapme.at settings
 SDIR="$HOME/.mapme.at"
 SFILE="$SDIR/shortcode"
@@ -90,7 +106,9 @@ SHORTCODE=`cat $SFILE`
 # then assume it's a GPS and attempt to read an NMEA position
 # using the gps.mapme.at.rb ruby script.
 if [ -c $1 ]; then
-    POS=`gps.mapme.at.rb $1`
+    source_dir
+    echo "Reading your location from GPS found at: $1"
+    POS=`$SOURCE_DIR/gps.mapme.at.rb $1`
     if [ "$POS" == "" ]; then
         echo "Couldn't read your position from the specified GPS device."
     else

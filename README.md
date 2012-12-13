@@ -20,3 +20,10 @@ a favourite label or a raw lat/lon, e.g.:
   mapme.at.sh home
   mapme.at.sh 56.493773 0.439453
 ```
+
+If you have a USB GPS device you can get the latitude and longitude
+from there. Assuming the device is already set up and configured
+simply try something similar to the following:
+```
+  mapme.at.sh /dev/tty.HOLUXGPSlim236-SPPslave-1
+```
